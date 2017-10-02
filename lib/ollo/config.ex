@@ -4,7 +4,8 @@ defmodule Ollo.Config do
   """
 
   [
-    :client_module
+    :client_module,
+    :user_module
   ]
   |> Enum.each(fn
     {key, default} ->
