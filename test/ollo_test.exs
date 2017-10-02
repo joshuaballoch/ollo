@@ -70,4 +70,31 @@ defmodule OlloTest do
       assert error_code == :invalid_scope
     end
   end
+
+  describe "get_tokens/2 for a given grant" do
+    @valid_email "email#{:rand.uniform(10000)}@mail.com"
+    @valid_password "password"
+    @valid_scopes ["read"]
+
+    setup do
+      {:ok, _} = Ollo.Config.user_module.insert_user(%{email: @valid_email, password: @valid_password})
+      {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "Some APp"})
+      Application.put_env(:ollo, :allowed_scopes, @valid_scopes)
+
+      [ client_id: client_id ]
+    end
+
+    test "works when grant is enabled", %{client_id: client_id} do
+      Application.put_env(:ollow, :enabled_grants, %{password: Ollo.GrantTypes.Password})
+      attrs = %{email: @valid_email, password: @valid_password, client_id: client_id, scope: @valid_scopes}
+      {:ok, tokens: _} = Ollo.get_tokens(:password, attrs)
+    end
+
+    test "raises an error when grant is disabled" do
+      Application.put_env(:ollow, :enabled_grants, %{})
+      assert_raise FunctionClauseError, fn ->
+        Ollo.get_tokens(:password, %{})
+      end
+    end
+  end
 end

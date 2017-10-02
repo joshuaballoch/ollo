@@ -8,12 +8,17 @@ defmodule Ollo.Config do
     access: 24
   }
 
+  @default_grants quote do: %{
+    password: Ollo.GrantTypes.Password
+  }
+
   [
-    {:token_expiry_in_hours, @token_expiry_defaults},
     {:allowed_scopes, []},
     :client_auth_module,
     :client_module,
+    {:enabled_grants, @default_grants},
     :user_module,
+    {:token_expiry_in_hours, @token_expiry_defaults},
     :token_module
   ]
   |> Enum.each(fn

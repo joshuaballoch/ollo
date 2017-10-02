@@ -24,7 +24,7 @@ defmodule Ollo do
 
   @doc """
   Grants authorization to a user's account to a client
-  Returns {:ok, client_auth} or {:error, error_struct}
+  Returns {:ok, client_auth} or {:error, %{error: :error_atom}}
 
   Verifies client_id is a valid client, and the scopes are in the allowed scopes
 
@@ -35,6 +35,15 @@ defmodule Ollo do
     |> verify_and_get_client
     |> verify_scopes
     |> create_client_authorization
+  end
+
+  @doc """
+  Gets refresh and access tokens (the last step of any grant)
+  Returns {:ok, {refresh: refresh_token, access: access_token}}
+       or {:error, %{error: error_atom}}
+  """
+  def get_tokens(grant_type, params) do
+    Map.get(Ollo.Config.enabled_grants, grant_type).get_tokens(params)
   end
 
   ## Private Methods
