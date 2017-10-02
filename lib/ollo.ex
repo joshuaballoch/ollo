@@ -1,18 +1,24 @@
 defmodule Ollo do
   @moduledoc """
-  Documentation for Ollo.
+  Ollo: Oauth2 Provider
   """
+
+  alias Ollo.Config
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Ollo.hello
-      :world
-
+  Gets the client matching the client_id
+  Returns a client struct OR nil
   """
-  def hello do
-    :world
+  def get_client(client_id) do
+    Config.client_module.get_client(client_id)
+  end
+
+  @doc """
+  Registers a client
+  Returns {:ok, client_struct} or {:error, error_struct}
+  # TODO: figure out standard error struct?
+  """
+  def register_client(%{name: name} = argv) do
+    Config.client_module.register_client(argv)
   end
 end
