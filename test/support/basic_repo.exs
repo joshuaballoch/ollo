@@ -11,7 +11,6 @@ defmodule BasicRepo do
 
   def get_by(name, key, val) do
     values = Agent.get(name, &Map.values(&1))
-    IO.inspect(values)
     Enum.find(values, fn value ->
       Map.get(value, key) == val
     end)

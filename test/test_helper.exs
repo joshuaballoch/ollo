@@ -1,8 +1,12 @@
 ExUnit.start()
 
 Code.require_file "./support/basic_repo.exs", __DIR__
+Code.require_file "./support/in_memory_client_auth_module.exs", __DIR__
 Code.require_file "./support/in_memory_client_module.exs", __DIR__
 Code.require_file "./support/in_memory_user_module.exs", __DIR__
+
+Application.put_env(:ollo, :client_auth_module, Ollo.InMemoryClientAuthModule)
+Ollo.InMemoryClientAuthModule.start_repo
 
 Application.put_env(:ollo, :client_module, Ollo.InMemoryClientModule)
 Ollo.InMemoryClientModule.start_repo

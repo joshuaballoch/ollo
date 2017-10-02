@@ -4,6 +4,8 @@ defmodule Ollo.Config do
   """
 
   [
+    :allowed_scopes,
+    :client_auth_module,
     :client_module,
     :user_module
   ]
