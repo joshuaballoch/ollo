@@ -37,7 +37,6 @@ defmodule Ollo do
     |> create_client_authorization
   end
 
-
   ## Private Methods
 
   ### START For grant_client_authorization
