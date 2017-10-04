@@ -1,5 +1,4 @@
 defmodule Ollo.InMemoryUserModule do
-  @behaviour Ollo.UserModule
 
   @repo_name :user_repo
 

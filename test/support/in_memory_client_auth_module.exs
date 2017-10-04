@@ -1,5 +1,4 @@
 defmodule Ollo.InMemoryClientAuthModule do
-  @behaviour Ollo.ClientAuthModule
 
   @repo_name :client_auth_repo
 

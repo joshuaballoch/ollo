@@ -14,12 +14,9 @@ defmodule Ollo.Config do
 
   [
     {:allowed_scopes, []},
-    :client_auth_module,
-    :client_module,
     {:enabled_grants, @default_grants},
-    :user_module,
     {:token_expiry_in_hours, @token_expiry_defaults},
-    :token_module
+    :persistence_module
   ]
   |> Enum.each(fn
     {key, default} ->

@@ -1,5 +1,4 @@
 defmodule Ollo.InMemoryClientModule do
-  @behaviour Ollo.ClientModule
 
   @repo_name :client_repo
 

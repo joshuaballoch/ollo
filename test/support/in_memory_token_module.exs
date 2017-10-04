@@ -1,5 +1,4 @@
 defmodule Ollo.InMemoryTokenModule do
-  @behaviour Ollo.TokenModule
 
   @repo_name :token_repo
 
@@ -15,11 +14,23 @@ defmodule Ollo.InMemoryTokenModule do
     BasicRepo.get_by(@repo_name, :email, email)
   end
 
-  def create_token!(%{user_id: _, client_id: _, value: _} = params) do
+  def create_token!(%{user_id: _, client_id: _, value: _, token_type: _} = params) do
     id = "id-#{:rand.uniform(10000)}"
     Map.put(params, :id, id)
     BasicRepo.insert(@repo_name, id, params)
     params
+  end
+
+  def get_token(token_type, value) do
+    case BasicRepo.get_by(@repo_name, :value, value) do
+      nil -> nil
+      token ->
+        if token.token_type == Atom.to_string(token_type) do
+          token
+        else
+          nil
+        end
+    end
   end
 end
 

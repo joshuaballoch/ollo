@@ -14,7 +14,8 @@ defmodule Ollo.HelpersTest do
 
     test "sets the token expiry according to the config" do
       token = create_token!(:refresh, client_id: "12", user_id: "11")
-      assert token.expires_at == :os.system_time(:seconds) + 24 * 7 * 3600
+      expected_expiry = DateTime.from_unix!((DateTime.utc_now |> DateTime.to_unix) + 24 * 7 * 3600)
+      assert token.expires_at == expected_expiry
     end
   end
 
@@ -30,7 +31,13 @@ defmodule Ollo.HelpersTest do
 
     test "sets the token expiry according to the config" do
       token = create_token!(:access, client_id: "12", user_id: "11")
-      assert token.expires_at == :os.system_time(:seconds) + 24 * 3600
+      expected_expiry = DateTime.from_unix!((DateTime.utc_now |> DateTime.to_unix) + 24 * 3600)
+      assert token.expires_at == expected_expiry
+    end
+
+    test "creates token that can be looked up after" do
+      token = create_token!(:access, client_id: "12", user_id: "11")
+      assert Ollo.Config.persistence_module.get_token(:access, token.value)
     end
   end
 end

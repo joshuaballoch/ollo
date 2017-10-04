@@ -24,7 +24,7 @@ defmodule OlloTest do
   describe "create_client_authorization/3 with valid client_id, user, and scope" do
     setup do
       {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "External App 1"})
-      {:ok, %{id: user_id}} = Ollo.Config.user_module.insert_user(%{email: "asdf@oih#{:rand.uniform(10000)}.com", password: "password123"})
+      {:ok, %{id: user_id}} = Ollo.InMemoryUserModule.insert_user(%{email: "asdf@oih#{:rand.uniform(10000)}.com", password: "password123"})
       Application.put_env(:ollo, :allowed_scopes, ["read", "write"])
 
       [
@@ -41,7 +41,7 @@ defmodule OlloTest do
 
   describe "create_client_authorization/3 with invalid client_id" do
     setup do
-      {:ok, %{id: user_id}} = Ollo.Config.user_module.insert_user(%{email: "asdf@oih#{:rand.uniform(10000)}.com", password: "password123"})
+      {:ok, %{id: user_id}} = Ollo.InMemoryUserModule.insert_user(%{email: "asdf@oih#{:rand.uniform(10000)}.com", password: "password123"})
       Application.put_env(:ollo, :allowed_scopes, ["read", "write"])
 
       [ user_id: user_id ]
@@ -56,7 +56,7 @@ defmodule OlloTest do
   describe "create_client_authorization/3 with scope not in allowed_scopes" do
     setup do
       {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "External App 1"})
-      {:ok, %{id: user_id}} = Ollo.Config.user_module.insert_user(%{email: "asdf@oih#{:rand.uniform(10000)}.com", password: "password123"})
+      {:ok, %{id: user_id}} = Ollo.InMemoryUserModule.insert_user(%{email: "asdf@oih#{:rand.uniform(10000)}.com", password: "password123"})
       Application.put_env(:ollo, :allowed_scopes, ["read", "write"])
 
       [
@@ -77,7 +77,7 @@ defmodule OlloTest do
     @valid_scopes ["read"]
 
     setup do
-      {:ok, _} = Ollo.Config.user_module.insert_user(%{email: @valid_email, password: @valid_password})
+      {:ok, _} = Ollo.InMemoryUserModule.insert_user(%{email: @valid_email, password: @valid_password})
       {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "Some APp"})
       Application.put_env(:ollo, :allowed_scopes, @valid_scopes)
 

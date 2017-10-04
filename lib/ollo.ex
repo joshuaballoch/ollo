@@ -10,16 +10,15 @@ defmodule Ollo do
   Returns a client struct OR nil
   """
   def get_client(client_id) do
-    Config.client_module.get_client(client_id)
+    Config.persistence_module.get_client(client_id)
   end
 
   @doc """
   Registers a client
   Returns {:ok, client_struct} or {:error, error_struct}
-  # TODO: figure out standard error struct?
   """
   def register_client(%{name: name} = argv) do
-    Config.client_module.register_client(argv)
+    Config.persistence_module.register_client(argv)
   end
 
   @doc """
@@ -66,7 +65,7 @@ defmodule Ollo do
 
   defp create_client_authorization({:error, res}), do: {:error, res}
   defp create_client_authorization({:ok, params}) do
-    Ollo.Config.client_auth_module.grant_authorization(params)
+    Ollo.Config.persistence_module.grant_authorization(params)
   end
   ### END For grant_client_authorization
 end

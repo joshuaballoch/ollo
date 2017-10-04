@@ -10,7 +10,7 @@ defmodule Ollo.GrantTypes.Password do
   end
 
   defp get_user(%{email: email} = params) do
-    case Ollo.Config.user_module.get_user_by_email(email) do
+    case Ollo.Config.persistence_module.get_user_by_email(email) do
       nil  -> {:error, %{error: :invalid_email_password_combo}}
       user -> {:ok,    Map.put(params, :user, user)}
     end
@@ -18,7 +18,7 @@ defmodule Ollo.GrantTypes.Password do
 
   defp match_email_password({:error, res}), do: {:error, res}
   defp match_email_password({:ok, %{user: user, password: password} = params}) do
-    case Ollo.Config.user_module.match_pw(user, password) do
+    case Ollo.Config.persistence_module.match_pw(user, password) do
       false -> {:error, %{error: :invalid_email_password_combo}}
       true  -> {:ok,    params}
     end

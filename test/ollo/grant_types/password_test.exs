@@ -6,7 +6,7 @@ defmodule Ollo.GrantTypes.PasswordTest do
   @valid_scopes ["read"]
 
   setup do
-    {:ok, _} = Ollo.Config.user_module.insert_user(%{email: @valid_email, password: @valid_password})
+    {:ok, _} = Ollo.InMemoryUserModule.insert_user(%{email: @valid_email, password: @valid_password})
     {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "Some APp"})
     Application.put_env(:ollo, :allowed_scopes, @valid_scopes)
 
