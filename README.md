@@ -1,6 +1,6 @@
 # Ollo
 
-**TODO: Add description**
+A lightweight Oauth2 Provider implementation
 
 ## Installation
 
@@ -19,3 +19,6 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/ollo](https://hexdocs.pm/ollo).
 
+## Acknowledgements
+
+This package was originally inspired by the package [Authable](https://github.com/mustafaturan/authable), another Oauth2 Provider implementation. Thank you to that package's author, [Mustafa Turan](https://github.com/mustafaturan), for his work on Authable and discussions on Oauth2.
