@@ -17,13 +17,14 @@ defmodule Ollo.Mixfile do
 
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger, :secure_random]
     ]
   end
 
   defp deps do
     [
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:secure_random, "~> 0.5"}
     ]
   end
 
