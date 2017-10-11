@@ -11,7 +11,7 @@ defmodule Ollo.InMemoryUserModule do
   end
 
   def get_user_by_email(email) do
-    BasicRepo.get_by(@repo_name, :email, email)
+    BasicRepo.get_by(@repo_name, email: email)
   end
 
   def match_pw(user, password) do

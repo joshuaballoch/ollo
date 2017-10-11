@@ -21,8 +21,12 @@ defmodule Ollo.TestPersistenceModule do
     Ollo.InMemoryClientModule.get_client(client_id)
   end
 
-  def grant_authorization(%{client_id: client_id, user_id: user_id, scope: scope} = params) do
+  def grant_authorization(%{client_id: _, user_id: _, scopes: _} = params) do
     Ollo.InMemoryClientAuthModule.grant_authorization(params)
+  end
+
+  def get_client_authorization(client_id: client_id, user_id: user_id) do
+    Ollo.InMemoryClientAuthModule.get_client_authorization(client_id: client_id, user_id: user_id)
   end
 
   def get_user_by_email(email) do
@@ -39,6 +43,18 @@ defmodule Ollo.TestPersistenceModule do
 
   def get_token(token_type, value) do
     Ollo.InMemoryTokenModule.get_token(token_type, value)
+  end
+
+  def get_token_by(token_type, params) do
+    Ollo.InMemoryTokenModule.get_token_by(token_type, params)
+  end
+
+  def update_token(token, params) do
+    Ollo.InMemoryTokenModule.update_token(token, params)
+  end
+
+  def delete_token!(token) do
+    Ollo.InMemoryTokenModule.delete_token!(token)
   end
 end
 
