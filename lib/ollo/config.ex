@@ -11,8 +11,9 @@ defmodule Ollo.Config do
   }
 
   @default_grants quote do: %{
+    device_flow: Ollo.GrantTypes.DeviceFlow,
     password: Ollo.GrantTypes.Password,
-    device_flow: Ollo.GrantTypes.DeviceFlow
+    refresh_token: Ollo.GrantTypes.RefreshToken
   }
 
   [

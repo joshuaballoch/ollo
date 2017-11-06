@@ -4,7 +4,7 @@ Code.require_file "../support/in_memory_user_module.exs", __DIR__
 Code.require_file "../support/in_memory_token_module.exs", __DIR__
 
 defmodule Ollo.TestPersistenceModule do
-  @behaviour Ollo.PersistenceModule
+  @behaviour Ollo.Persistence
 
   def start do
     Ollo.InMemoryClientAuthModule.start_repo

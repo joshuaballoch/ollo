@@ -24,7 +24,8 @@ defmodule Ollo.InMemoryTokenModule do
   def update_token(token, params) do
     merged_params = Map.merge(token, params)
     BasicRepo.remove_by(@repo_name, :value, token[:value])
-    BasicRepo.insert(@repo_name, "id-#{:rand.uniform(10000)}", merged_params)
+    :ok = BasicRepo.insert(@repo_name, "id-#{:rand.uniform(10000)}", merged_params)
+    get_by_value(token[:value])
   end
 
   def get_token(token_type, value) do
