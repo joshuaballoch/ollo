@@ -31,8 +31,15 @@ defmodule Ollo do
 
   ### Examples
 
-       iex> Ollo.get_temp_code(:device_flow, %{client_id: "some-client-id", scopes: ["read"]})
-       {:ok, %{device_code: "device-code", user_code: "user-code", expires_in: 3600}}
+       iex> Application.put_env(:ollo, :allowed_scopes, ["read", "write"])
+       iex> {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "Some app"})
+       iex> result = Ollo.get_temp_code(:device_flow, %{client_id: client_id, scopes: ["read"]})
+       iex> with {:ok, %{
+       ...>   device_code: device_code,
+       ...>   user_code: user_code,
+       ...>   expires_in: 600
+       ...> }} <- result, do: :passed
+       :passed
 
   """
   def get_temp_code(grant_type, params) do
@@ -87,7 +94,9 @@ defmodule Ollo do
 
   ### Examples
 
-        iex> Ollo.reject_temp_code(:device_flow, "user-code")
+        iex> {:ok, %{client_id: client_id}} = Ollo.register_client(%{name: "Some app"})
+        iex> {:ok, %{ user_code: user_code }} = Ollo.GrantTypes.DeviceFlow.get_temp_code(%{client_id: client_id, scopes: ["read"]})
+        iex> Ollo.reject_temp_code(:device_flow, user_code)
         {:ok, %{}}
 
         iex> Ollo.reject_temp_code(:device_flow, "nonexistent-user-code")
