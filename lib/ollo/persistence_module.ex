@@ -28,25 +28,38 @@ defmodule Ollo.Persistence do
   ## START ClientAuthorization Behaviours
 
   @doc """
-  Grants a client authorization to a user's account, for a specified scope
+  Grants a client authorization to a user's account, for a specified set of scopes
 
   Returns {:ok, client_authorization_struct}
        or {:error, %{error: :error_message}}
 
-  If authorization has already been granted, it just updates the scope of the authorization
+  If authorization has already been granted, it just updates the scopes of the authorization
 
   Client Authorization struct is expected to have the following attributes:
     - client_id of the client that has been granted authorization
     - user_id of the user who the client is granted authorization to
-    - scope, a list of scopes the client has been granted
+    - scopes, a list of scopes the client has been granted
 
   ## Examples
 
-      iex> Ollo.ClientAuthModule.grant_authorization(%{client_id: "client-id", user_id: "user-id", scope: ["read", "write"]})
-      {:ok, %ClientAuthorization{client_id: "client-id", user_id: "user-id", scope: ["read", "write"]}}
+      iex> Ollo.Config.persistence_module.grant_authorization(%{client_id: "client-id", user_id: "user-id", scopes: ["read", "write"]})
+      {:ok, %ClientAuthorization{client_id: "client-id", user_id: "user-id", scopes: ["read", "write"]}}
 
   """
   @callback grant_authorization(Map.t) :: {:ok, struct}
+
+  @doc """
+  Gets the client authorization for a specified client and user id
+
+  Returns true or false
+
+  ## Examples
+
+      iex> Ollo.Config.persistence_module.get_client_authorization(client_id: "client_id", user_id: "user_id")
+      # Returns the user-implemented struct
+      %ClientAuthorization{client_id: "client_id", user_id: "user_id", scopes: ["asdf"]}
+  """
+  @callback get_client_authorization(Map.t) :: struct
 
   ## END ClientAuthorization Behaviours
 
@@ -80,6 +93,9 @@ defmodule Ollo.Persistence do
     - user_id (string or UUID or integer)
     - client_id (string or UUID or integer)
     - expires_at (datetime)
+    - status (string)
+    - parent_token_value (string - references another token's value)
+    - requested_scopes (list of strings)
   """
   @callback create_token!(Map.t) :: struct
 
@@ -88,6 +104,24 @@ defmodule Ollo.Persistence do
   Returns a Token struct or nil
   """
   @callback get_token(atom, String.t) :: struct
+
+  @doc """
+  Gets a token based on the token_type (atom) and parameters passed
+  Returns a Token struct or nil
+  """
+  @callback get_token_by(atom, Map.t) :: struct | nil
+
+  @doc """
+  Updates a token
+  Expects no errors to occur - raise an error if something goes wrong
+  """
+  @callback update_token(struct, Map.t) :: struct
+
+  @doc """
+  Deletes a token
+  Expects no errors to occur - raise an error if something goes wrong
+  """
+  @callback delete_token!(struct) :: nil
 
   ## END Token Behaviours
 end

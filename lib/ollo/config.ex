@@ -5,11 +5,14 @@ defmodule Ollo.Config do
 
   @token_expiry_defaults quote do: %{
     refresh: 7 * 24,
-    access: 24
+    access: 24,
+    device_code: (10 * 60) / 3600,
+    user_code: (10 * 60) / 3600
   }
 
   @default_grants quote do: %{
-    password: Ollo.GrantTypes.Password
+    password: Ollo.GrantTypes.Password,
+    device_flow: Ollo.GrantTypes.DeviceFlow
   }
 
   [
